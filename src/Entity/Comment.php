@@ -35,6 +35,12 @@ class Comment
      */
     private $publishedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Conversation::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $conversation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +78,18 @@ class Comment
     public function setPublishedAt(\DateTimeImmutable $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): self
+    {
+        $this->conversation = $conversation;
 
         return $this;
     }
