@@ -5,10 +5,32 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_USER')",
+ *              "normalization_context"={"groups"={"user:read"}}
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_USER')",
+ *              "normalization_context"={"groups"={"user:read"}}
+ *          }
+ *     },
+ *     itemOperations={
+ *          "get",
+ *          "patch"={
+ *              "security"="object.account.id == user.id",
+ *              "normalization_context"={"groups"={"user:read"}}
+ *          },
+ *          "delete"={
+ *              "security"="object.account.id == user.id",
+ *          }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User
@@ -23,11 +45,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user:read")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user:read")
      */
     private $lastname;
 
