@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -35,6 +40,17 @@ use Symfony\Component\Uid\Uuid;
  *              "security"="object.account.id == user.id",
  *          }
  *     }
+ * )
+ * @ApiFilter(BooleanFilter::class, properties={"account.isActive"})
+ * @ApiFilter(ExistsFilter::class, properties={"account.phone"})
+ * @ApiFilter(DateFilter::class, properties={"account.registeredAt"})
+ * @ApiFilter(SearchFilter::class,
+ *     properties={
+ *      "firstname"="partial",
+ *      "lastname"="partial",
+ *      "address"="partial",
+ *      "account.email"="partial",
+ *      "account.phone"="partial"}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
