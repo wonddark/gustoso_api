@@ -52,6 +52,11 @@ class Seller
      */
     private $items;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $reputation;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -148,6 +153,18 @@ class Seller
                 $item->setSeller(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReputation(): ?float
+    {
+        return $this->reputation;
+    }
+
+    public function setReputation(float $reputation): self
+    {
+        $this->reputation = $reputation;
 
         return $this;
     }
