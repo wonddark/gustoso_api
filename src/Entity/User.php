@@ -13,18 +13,23 @@ use Symfony\Component\Uid\Uuid;
  *     collectionOperations={
  *          "get"={
  *              "security"="is_granted('ROLE_USER')",
- *              "normalization_context"={"groups"={"user:read"}}
+ *              "normalization_context"={"groups"={"user:collection:read"}}
  *          },
  *          "post"={
  *              "security"="is_granted('ROLE_USER')",
- *              "normalization_context"={"groups"={"user:read"}}
+ *              "normalization_context"={"groups"={"user:collection:read"}},
+ *              "denormalization_context"={"groups"={"user:collection:write"}}
  *          }
  *     },
  *     itemOperations={
- *          "get",
+ *          "get"={
+ *              "security"="is_granted('ROLE_USER')",
+ *              "normalization_context"={"groups"={"user:item:read"}}
+ *          },
  *          "patch"={
  *              "security"="object.account.id == user.id",
- *              "normalization_context"={"groups"={"user:read"}}
+ *              "normalization_context"={"groups"={"user:item:read"}},
+ *              "denormalization_context"={"groups"={"user:item:write"}}
  *          },
  *          "delete"={
  *              "security"="object.account.id == user.id",
@@ -45,24 +50,34 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("user:read")
+     * @Groups("user:collection:read")
+     * @Groups("user:item:read")
+     * @Groups("user:collection:write")
+     * @Groups("user:item:write")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("user:read")
+     * @Groups("user:collection:read")
+     * @Groups("user:item:read")
+     * @Groups("user:collection:write")
+     * @Groups("user:item:write")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user:item:read")
+     * @Groups("user:collection:write")
+     * @Groups("user:item:write")
      */
     private $address;
 
     /**
      * @ORM\OneToOne(targetEntity=Account::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("user:item:read")
      */
     private $account;
 

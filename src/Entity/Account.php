@@ -55,6 +55,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("account:read")
+     * @Groups("user:item:read")
      * @Groups("account:write")
      * @SerializedName("username")
      */
@@ -63,6 +64,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      * @Groups("account:read")
+     * @Groups("user:item:read")
      */
     private $roles = ['ROLE_USER'];
 
@@ -83,6 +85,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      * @Groups("account:read")
+     * @Groups("user:item:read")
      */
     private $isActive = false;
 
@@ -94,6 +97,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime_immutable")
      * @Groups("account:read")
+     * @Groups("user:item:read")
      */
     private $registeredAt;
 
@@ -105,6 +109,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=8, nullable=true, unique=true)
      * @Groups("account:read")
+     * @Groups("user:item:read")
      * @Groups("account:write")
      * @Groups("account:update")
      */
