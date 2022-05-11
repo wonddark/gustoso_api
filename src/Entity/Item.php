@@ -50,6 +50,16 @@ class Item
      */
     private $conversation;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $views;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $score;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,6 +138,30 @@ class Item
         }
 
         $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    public function getScore(): ?float
+    {
+        return $this->score;
+    }
+
+    public function setScore(float $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }
